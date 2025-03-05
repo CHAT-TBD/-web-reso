@@ -4,42 +4,13 @@ let language = "en"; // Default language is English
 const userName = "You";
 const botName = "TBD";
 const userAvatar = "https://img5.pic.in.th/file/secure-sv1/1000049084ea52cf432a302e47.jpg";
-const botAvatar = "https://img2.pic.in.th/pic/1000057685.jpg";
+const botAvatar = "https://img5.pic.in.th/file/secure-sv1/1000063411ccf04b143884aafe.jpg";
 
 // Replies
 const predefinedReplies = {
   en: {
-    "hello": "Hi! How can I assist you?",
-    "สวัสดี":"โปรดเลือกภาษาไทย",
-    "Hi": "Hi! How can I assist you?",
-    "how are you": "I'm doing great, thank you for asking!",
-    "what is your name": "I'm Chatbot, nice to meet you!",
-    "good morning": "Good morning! How can I help you today?",
-    "good night": "Good night! Sleep well!",
-    "what is your purpose": "I am here to help you with anything you need.",
-    "tell me a joke": "Why don’t skeletons fight each other? They don’t have the guts!",
-    "how can I help you": "You can ask me questions or tell me what you need help with!",
-    "what is the weather like": "I’m sorry, I can't check the weather right now.",
-    "what time is it": "I'm sorry, I can't check the time for you.",
-    "how old are you": "I don’t have an age, I'm just a chatbot!",
-    "what do you like to do": "I like to chat and help people.",
-    "where are you from": "I’m from the digital world!",
-    "can you help me": "Of course! What do you need help with?",
-    "what is your favorite color": "I don’t have a favorite color, but I think blue is nice.",
-    "do you have emotions": "No, I don’t experience emotions, but I’m designed to be helpful.",
-    "are you real": "I’m real in the digital sense, but I’m not a human.",
-    "tell me a story": "Once upon a time, there was a chatbot who loved to help people...",
-    "can you speak any other languages": "Yes, I can chat in multiple languages.",
-    "what is love": "Love is a deep feeling of affection, but I can’t experience it.",
-    "who is the president": "I don't have real-time info, but you can look it up online.",
-    "are you a robot": "I’m not a robot, I’m a chatbot!",
-    "what is 2+2": "2 + 2 is 4.",
-    "what is the capital of France": "The capital of France is Paris.",
-    "what is your favorite food": "I don’t eat food, but I know a lot about it.",
-    "can you play games": "I can’t play games, but I can help you find some!",
-    "do you like music": "I can’t listen to music, but I know about different types.",
-    "what is the meaning of life": "The meaning of life is subjective, but many say it’s about finding happiness.",
-    // Additional 80+ entries...
+    "ควย":"ควย",
+    "":""
   },
   th: {
     "สวัสดี": "สวัสดี! มีอะไรให้ช่วยไหม?",
@@ -215,13 +186,13 @@ function getBotReply(userMessage) {
   // Check for keywords
   const keywords = language === "th" ? ["ช่วย", "ถาม", "บอก"] : ["help", "question", "tell"];
   if (containsKeyword(normalizedMessage, keywords)) {
-    return language === "th" ? "ฉันพร้อมช่วยคุณเเต่อาจจะช่วยไม่ได้มากเพราะระบบอยู่ในช่วง Beta " : "I'm ready to help you, but I may not be able to help much because the system is in Beta.";
+    return language === "th" ? "ฉันพร้อมช่วยคุณเเต่อาจจะช่วยไม่ได้มากเพราะระบบอยู่ในช่วง Beta เเล้วก็ set Data อยู่ไอ้สัส ถามง่ายๆก่อนดิควาย" : "I'm ready to help you, but I may not be able to help much because the system is in Beta.";
   }
 
   // Fallback response
   const fallbackReplies = language === "en" 
-    ? ["Sorry, I don't understand. Can you try typing again?", "I'm not sure what you mean. Could you please explain more?."] 
-    : ["ขอโทษ ฉันไม่เข้าใจ ลองพิมพ์ใหม่อีกครั้งได้ไหม", "ฉันไม่แน่ใจว่าคุณหมายถึงอะไร คุณช่วยอธิบายเพิ่มเติมได้ไหม"];
+    ? ["ขอโทษนะ กุ set Data อยู่ไอ้สัส ถามง่ายๆก่อนดิควาย", "กุset Data อยู่ไอ้สัส ถามง่ายๆก่อนดิควาย"] 
+    : ["ขอโทษนะ กุ set Data อยู่ไอ้สัส ถามง่ายๆก่อนดิควาย", "กุset Data อยู่ไอ้สัส ถามง่ายๆก่อนดิควาย"];
 
   return fallbackReplies[Math.floor(Math.random() * fallbackReplies.length)];
 }
