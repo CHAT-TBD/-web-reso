@@ -32,7 +32,7 @@ body {
   align-items: center;
   padding: 15px;
   background: radial-gradient(circle 280px at 0% 0%, #444444, #0c0d0d);
-  background-image: url('https://img2.pic.in.th/pic/1000057687.jpg');
+  background-image: url('#');
   background-size: cover;
   background-position: center;
   color: #ffffff;
