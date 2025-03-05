@@ -89,7 +89,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-image: url('https://img2.pic.in.th/pic/1000058015.jpg');
+  background-image: url('#');
 }
 
 /* Message Styling */
