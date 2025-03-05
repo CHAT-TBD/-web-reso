@@ -1,31 +1,93 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta AI Chat</title>
-    <link rel="stylesheet" href="styles1.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat TBD</title>
+  <link rel="website icon" type="png" href="https://img2.pic.in.th/pic/1000057685.jpg">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <div class="chat-container">
-        <div class="chat-header">
-            <div class="profile-pic"></div>
-            <div class="chat-title">Meta AI <span>🔥</span></div>
-        </div>
-        
-        <div class="chat-box" id="chat-box">
-            <!-- ข้อความจะถูกเพิ่มที่นี่ -->
-        </div>
-
-        <div class="chat-input">
-            <label for="image-upload" class="image-btn">📎</label>
-            <input type="file" id="image-upload" accept="image/*" hidden>
-            <input type="text" id="user-input" placeholder="พิมพ์ข้อความ...">
-            <button id="send-btn">🚀</button>
-        </div>
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="header-left">
+        <img src="https://img2.pic.in.th/pic/1000057685.jpg" alt="Logo" class="logo">
+        <h2></h2>
+      </div>
     </div>
+    <div class="language-select">
+        <button id="lang-en" class="lang-button active">English🏴󠁧󠁢󠁥󠁮󠁧󠁿(BETA)</button>
+        <button id="lang-th" class="lang-button">ไทย🇹🇭(BETA)
+        </button>
+<style>
+  /* From Uiverse.io by SmookyDev */ 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-family: "Arial", sans-serif;
+}
 
-    <script src="script1.js"></script>
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  top: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #333 transparent;
+}
+
+.tooltip .icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #000000;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+}
+
+</style>  
+  
+<div class="tooltip">
+  <div class="icon">!</div>
+  <div class="tooltiptext">รุ่นเบต้าอย่าเสือกใช้สิ่งที่เป็นไปไม่ได้</div>
+</div>
+
+    </div>
+    <div class="chat-body" id="chat-body">
+      <!-- Messages will appear here -->
+    </div>
+    <div class="chat-footer">
+      <input type="text" id="user-input" placeholder="Type a message...">
+      <button id="send-button">📨</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
