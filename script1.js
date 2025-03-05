@@ -1,9 +1,7 @@
-console.log("✅ Chat UI Loaded");
-
 document.addEventListener("DOMContentLoaded", function () {
     const sendBtn = document.getElementById("send-btn");
     const userInput = document.getElementById("user-input");
-    const uploadBtn = document.getElementById("upload-btn");
+    const chatBox = document.getElementById("chat-box");
     const imageUpload = document.getElementById("image-upload");
 
     sendBtn.addEventListener("click", sendMessage);
@@ -11,82 +9,50 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.key === "Enter") sendMessage();
     });
 
-    uploadBtn.addEventListener("click", () => imageUpload.click());
     imageUpload.addEventListener("change", sendImage);
-});
 
-function appendMessage(sender, text, isImage = false) {
-    let chatBox = document.getElementById("chat-box");
-    let messageDiv = document.createElement("div");
-    messageDiv.classList.add(sender === "user" ? "user-message" : "bot-message");
+    function sendMessage() {
+        let text = userInput.value.trim();
+        if (text === "") return;
 
-    if (isImage) {
+        appendMessage("user", text);
+        userInput.value = "";
+
+        setTimeout(() => {
+            appendMessage("bot", "...");
+        }, 1000);
+    }
+
+    function sendImage(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            appendImage("user", e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function appendMessage(sender, text) {
+        let msgDiv = document.createElement("div");
+        msgDiv.classList.add(sender === "user" ? "user-message" : "bot-message");
+        msgDiv.innerText = text;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function appendImage(sender, imgSrc) {
+        let imgDiv = document.createElement("div");
+        imgDiv.classList.add(sender === "user" ? "user-message" : "bot-message");
+
         let img = document.createElement("img");
-        img.src = text;
+        img.src = imgSrc;
         img.style.maxWidth = "200px";
         img.style.borderRadius = "10px";
-        messageDiv.appendChild(img);
-    } else {
-        messageDiv.innerText = text;
+
+        imgDiv.appendChild(img);
+        chatBox.appendChild(imgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
-
-    chatBox.appendChild(messageDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-async function sendMessage() {
-    let userText = document.getElementById("user-input").value.trim();
-    if (userText === "") return;
-
-    appendMessage("user", userText);
-    document.getElementById("user-input").value = "";
-
-    let loadingMessage = appendMessage("bot", "🤖 กำลังคิด");
-    let dots = 0;
-    let loadingInterval = setInterval(() => {
-        dots = (dots + 1) % 4; 
-        loadingMessage.innerText = "🤖 กำลังคิด" + ".".repeat(dots);
-    }, 500);
-
-    try {
-        console.log("🚀 ส่งข้อความไปที่ Gemini API:", userText);
-
-        let response = await fetch("https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=YOUR_GEMINI_API_KEY", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: userText }] }]
-            })
-        });
-
-        clearInterval(loadingInterval);
-
-        if (!response.ok) {
-            throw new Error(`❌ API ตอบกลับผิดพลาด: ${response.status} ${response.statusText}`);
-        }
-
-        let data = await response.json();
-        console.log("✅ API ตอบกลับ:", data);
-
-        let botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ ฉันไม่เข้าใจ กรุณาลองใหม่";
-
-        appendMessage("bot", botReply);
-    } catch (error) {
-        clearInterval(loadingInterval);
-        console.error("❌ Error:", error);
-        appendMessage("bot", "⚠️ ขออภัย ระบบมีปัญหา กรุณาลองใหม่อีกครั้ง");
-    }
-}
-
-function sendImage(event) {
-    let file = event.target.files[0];
-    if (!file) return;
-
-    let reader = new FileReader();
-    reader.onload = function (e) {
-        appendMessage("user", e.target.result, true);
-    };
-    reader.readAsDataURL(file);
-}
+});
