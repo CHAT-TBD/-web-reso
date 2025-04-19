@@ -1,100 +1,109 @@
-const predefinedReplies = {
-  thai: {
-    "สวัสดี": ["สวัสดีครับ", "ดีจ้า", "หวัดดี!"],
-    "เศร้า": ["ไม่เป็นไรนะ เดี๋ยวมันก็ผ่านไป", "เสียใจด้วยนะ อย่าลืมดูแลตัวเอง", "อยากกอดให้แน่นๆ เลย"],
-    "เหงา": ["ฉันอยู่ตรงนี้เสมอนะ", "อยากคุยไหม?", "เราคุยกันได้นะ"],
-  },
-  english: {
-    "hello": ["Hi there!", "Hello!", "Hey!"],
-    "sad": ["Cheer up!", "Everything will be okay.", "Sending you a virtual hug."],
-    "lonely": ["I'm here for you.", "You're not alone.", "Let's chat together!"],
-  }
-};
+let language = "en";
+let predefinedReplies = { en: {}, th: {} };
 
-const synonyms = {
-  thai: {
-    "เศร้า": ["เสียใจ", "ท้อแท้", "หมดกำลังใจ"],
-    "เหงา": ["โดดเดี่ยว", "ไม่มีใคร", "เหงาจัง"]
-  },
-  english: {
-    "sad": ["upset", "down", "depressed"],
-    "lonely": ["alone", "isolated"]
-  }
-};
+const userName = "You";
+const botName = "TBD";
+const userAvatar = "https://img5.pic.in.th/file/secure-sv1/1000049084ea52cf432a302e47.jpg";
+const botAvatar = "https://img2.pic.in.th/pic/1000057685.jpg";
 
-let language = "thai"; // default language
-let lastUserMessage = ""; // context memory
+const chatBody = document.getElementById("chat-body");
+const userInput = document.getElementById("user-input");
+const sendButton = document.getElementById("send-button");
+const langEnButton = document.getElementById("lang-en");
+const langThButton = document.getElementById("lang-th");
 
-function matchWithSynonyms(userMessage, predefined, syns) {
-  const normalized = userMessage.toLowerCase().trim();
-  for (const key in predefined) {
-    if (normalized.includes(key)) {
-      return randomReply(predefined[key]);
-    }
-
-    if (syns[key]) {
-      for (const alt of syns[key]) {
-        if (normalized.includes(alt)) {
-          return randomReply(predefined[key]);
-        }
-      }
-    }
-  }
-  return null;
+// โหลด replies จาก GitHub
+async function fetchReplies() {
+  try {
+    const res = await fetch("https://raw.githubusercontent.com/your-username/your-repo-name/main/replies.json");
+    const data = await res.json();
+    predefinedReplies = data;
+  } catch (error) {
+    console.error("Error loading replies:", error);
+  }
 }
 
-function saveUnknown(userMessage) {
-  const unknowns = JSON.parse(localStorage.getItem("unknownMessages") || "[]");
-  unknowns.push(userMessage);
-  localStorage.setItem("unknownMessages", JSON.stringify(unknowns));
+function levenshteinDistance(a, b) {
+  // ... (ตามเดิม)
 }
 
-function randomReply(replies) {
-  return replies[Math.floor(Math.random() * replies.length)];
+function containsKeyword(userMessage, keywords) {
+  // ... (ตามเดิม)
+}
+
+function getBestMatch(userMessage, predefined) {
+  // ... (ตามเดิม)
 }
 
 function getBotReply(userMessage) {
-  const normalized = userMessage.toLowerCase().trim();
-  const predefined = predefinedReplies[language];
-  const syns = synonyms[language];
+  const normalizedMessage = userMessage.toLowerCase().trim();
+  const predefined = predefinedReplies[language];
 
-  // ตัวอย่าง context memory
-  if (lastUserMessage.includes("เศร้า") && normalized.includes("ทำยังไงดี")) {
-    return "ลองพักผ่อน ฟังเพลง หรือระบายให้ใครสักคนฟังก็ได้นะ";
-  }
+  const bestMatch = getBestMatch(normalizedMessage, predefined);
+  if (bestMatch) return predefined[bestMatch];
 
-  const matched = matchWithSynonyms(normalized, predefined, syns);
-  lastUserMessage = normalized;
+  const keywords = language === "th" ? ["ช่วย", "ถาม", "บอก"] : ["help", "question", "tell"];
+  if (containsKeyword(normalizedMessage, keywords)) {
+    return language === "th"
+      ? "ฉันพร้อมช่วยคุณเเต่อาจจะช่วยไม่ได้มากเพราะระบบอยู่ในช่วง Beta "
+      : "I'm ready to help you, but I may not be able to help much because the system is in Beta.";
+  }
 
-  if (matched) return matched;
+  const fallbackReplies = language === "en"
+    ? ["Sorry, I don't understand. Can you try typing again?", "I'm not sure what you mean. Could you please explain more?"]
+    : ["ขอโทษ ฉันไม่เข้าใจ ลองพิมพ์ใหม่อีกครั้งได้ไหม", "ฉันไม่แน่ใจว่าคุณหมายถึงอะไร คุณช่วยอธิบายเพิ่มเติมได้ไหม"];
 
-  saveUnknown(userMessage);
-  return language === "thai" ? "ฉันยังไม่เข้าใจคำนี้ แต่จะเรียนรู้นะ" : "I don't understand that yet, but I'm learning!";
+  return fallbackReplies[Math.floor(Math.random() * fallbackReplies.length)];
 }
 
-function toggleLanguage() {
-  language = language === "thai" ? "english" : "thai";
-  document.getElementById("language-toggle").innerText =
-    language === "thai" ? "เปลี่ยนเป็นอังกฤษ" : "Switch to Thai";
+function addMessage(sender, text, avatar) {
+  // ... (ตามเดิม)
 }
 
-// ตัวอย่างการใช้งาน
-document.getElementById("send-button").addEventListener("click", function () {
-  const userInput = document.getElementById("user-input").value;
-  const botReply = getBotReply(userInput);
+function addThinkingAnimation() {
+  // ... (ตามเดิม)
+}
 
-  const chatArea = document.getElementById("chat-area");
+function removeThinkingAnimation(thinkingDiv) {
+  // ... (ตามเดิม)
+}
 
-  const userDiv = document.createElement("div");
-  userDiv.classList.add("user-message");
-  userDiv.innerText = userInput;
+function sendMessage() {
+  const userMessage = userInput.value.trim();
+  if (userMessage) {
+    addMessage("user", userMessage, userAvatar);
+    userInput.value = "";
+    const thinkingDiv = addThinkingAnimation();
 
-  const botDiv = document.createElement("div");
-  botDiv.classList.add("bot-message");
-  botDiv.innerText = botReply;
+    setTimeout(() => {
+      const botReply = getBotReply(userMessage);
+      removeThinkingAnimation(thinkingDiv);
+      addMessage("bot", botReply, botAvatar);
+    }, 1500);
+  }
+}
 
-  chatArea.appendChild(userDiv);
-  chatArea.appendChild(botDiv);
+function switchLanguage(lang) {
+  language = lang;
+  if (lang === "en") {
+    langEnButton.classList.add("active");
+    langThButton.classList.remove("active");
+    userInput.placeholder = "Type a message...";
+  } else {
+    langEnButton.classList.remove("active");
+    langThButton.classList.add("active");
+    userInput.placeholder = "พิมพ์ข้อความ...";
+  }
+}
 
-  document.getElementById("user-input").value = "";
+sendButton.addEventListener("click", sendMessage);
+userInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
 });
+langEnButton.addEventListener("click", () => switchLanguage("en"));
+langThButton.addEventListener("click", () => switchLanguage("th"));
+
+// โหลดข้อมูลเริ่มต้น
+fetchReplies();
