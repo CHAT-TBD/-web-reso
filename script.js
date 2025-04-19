@@ -15,7 +15,7 @@ const langThButton = document.getElementById("lang-th");
 // โหลด replies จาก GitHub
 async function fetchReplies() {
   try {
-    const res = await fetch("https://raw.githubusercontent.com/your-username/your-repo-name/main/replies.json");
+    const res = await fetch("https://raw.githubusercontent.com/CHAT-TBD/-web-reso/refs/heads/main/replies.json");
     const data = await res.json();
     predefinedReplies = data;
   } catch (error) {
